@@ -20,18 +20,22 @@
         }
         
         .header {
-            background: linear-gradient(180deg, rgba(33, 150, 243, 0.75), rgba(106, 27, 154, 0.8)),
-                url('./BackGroundPhoto.png') center/cover no-repeat;
+            background-image: url('./BackGroundPhoto.png.jpg');
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            min-height: 480px;
+            padding: 80px 30px;
             color: white;
-            padding: 50px 30px;
             text-align: center;
             position: relative;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
         }
         .header::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0);
         }
         .header * {
             position: relative;
@@ -434,7 +438,7 @@
             const img = new Image();
             img.src = './BackGroundPhoto.png';
             img.onload = () => {
-                document.querySelector('.header').style.backgroundImage = "linear-gradient(180deg, rgba(33, 150, 243, 0.75), rgba(106, 27, 154, 0.8)), url('./BackGroundPhoto.png')";
+                document.querySelector('.header').style.backgroundImage = "url('./BackGroundPhoto.png')";
             };
             img.onerror = () => {
                 console.log('BackGroundPhoto.png not found, using fallback image.');
