@@ -5,184 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paraglider Simulation Video Viewer</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 10px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2em; margin-bottom: 10px; }
+        .header p { font-size: 0.95em; opacity: 0.9; }
         
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
+        /* Tabs */
+        .tabs { display: flex; background: #f0f0f0; border-bottom: 1px solid #ddd; }
+        .tab-btn { flex: 1; padding: 15px; text-align: center; font-weight: bold; color: #555; background: #e0e0e0; cursor: pointer; border: none; outline: none; transition: background 0.3s, color 0.3s; font-size: 1.1em; }
+        .tab-btn:hover { background: #d0d0d0; }
+        .tab-btn.active { background: white; color: #667eea; border-bottom: 3px solid #667eea; }
+        .tab-content { display: none; padding: 40px; }
+        .tab-content.active { display: block; }
         
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
+        /* Media & Layout */
+        .media-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px; }
+        .media-container.single { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto 40px auto; }
+        .video-container, .image-container { background: #f5f5f5; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 400px; }
+        .video-container { background: #000; aspect-ratio: 16 / 9; }
+        .image-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        @media (max-width: 1200px) { .media-container { grid-template-columns: 1fr; } }
+        video { width: 100%; height: 100%; }
         
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+        /* Controls */
+        .controls { background: #f5f5f5; padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .slider-group { margin-bottom: 25px; }
+        .slider-group:last-child { margin-bottom: 0; }
+        label { display: block; font-weight: 600; margin-bottom: 10px; color: #333; }
+        .slider-wrapper { display: flex; align-items: center; gap: 15px; }
+        input[type="range"] { flex: 1; height: 8px; border-radius: 5px; background: #ddd; outline: none; -webkit-appearance: none; appearance: none; }
+        input[type="range"]::-webkit-slider-thumb, input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); cursor: pointer; border: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); -webkit-appearance: none; appearance: none; }
         
-        .header h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
+        .selector-wrapper { margin-bottom: 25px; }
+        select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 1em; outline: none; font-weight: 600; color: #333; }
         
-        .header p {
-            font-size: 0.95em;
-            opacity: 0.9;
-        }
+        .value-display { min-width: 80px; text-align: right; font-weight: 600; color: #667eea; font-size: 1.1em; }
+        .info { background: #e3f2fd; border-left: 4px solid #667eea; padding: 15px; border-radius: 4px; color: #1565c0; font-size: 0.95em; }
+        .info strong { display: block; margin-bottom: 5px; }
         
-        .content {
-            padding: 40px;
-        }
-        
-        .media-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .video-container {
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            aspect-ratio: 16 / 9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .image-container {
-            background: #f5f5f5;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 400px;
-        }
-        
-        .image-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        
-        @media (max-width: 1200px) {
-            .media-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        video {
-            width: 100%;
-            height: 100%;
-        }
-        
-        .controls {
-            background: #f5f5f5;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        
-        .slider-group {
-            margin-bottom: 25px;
-        }
-        
-        .slider-group:last-child {
-            margin-bottom: 0;
-        }
-        
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .slider-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        input[type="range"] {
-            flex: 1;
-            height: 8px;
-            border-radius: 5px;
-            background: #ddd;
-            outline: none;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        input[type="range"]::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        .value-display {
-            min-width: 80px;
-            text-align: right;
-            font-weight: 600;
-            color: #667eea;
-            font-size: 1.1em;
-        }
-        
-        .info {
-            background: #e3f2fd;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            border-radius: 4px;
-            color: #1565c0;
-            font-size: 0.95em;
-        }
-        
-        .info strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-        
-        .loading.active {
-            display: block;
-        }
+        .loading { display: none; text-align: center; padding: 20px; color: #666; }
+        .loading.active { display: block; }
     </style>
 </head>
 <body>
@@ -192,7 +56,13 @@
             <p>Interactive visualization of aerodynamic simulations</p>
         </div>
         
-        <div class="content">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('simView', this)">Simulation Viewer</button>
+            <button class="tab-btn" onclick="switchTab('heatmapView', this)">Heatmaps Viewer</button>
+        </div>
+        
+        <!-- Simulation View -->
+        <div id="simView" class="tab-content active">
             <div class="media-container">
                 <div>
                     <h2 style="margin-bottom: 15px; color: #333;">Video Simulation</h2>
@@ -244,9 +114,60 @@
                 AoA: <span id="infoAoA">0°</span>
             </div>
         </div>
+        
+        <!-- Heatmap View -->
+        <div id="heatmapView" class="tab-content">
+            <div class="media-container single">
+                <div>
+                    <h2 style="margin-bottom: 15px; color: #333; text-align: center;">Heatmap Analysis</h2>
+                    <div class="image-container">
+                        <div class="loading" id="loadingHeatmap">Loading heatmap...</div>
+                        <img id="heatmapImage" alt="Heatmap Plot">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="selector-wrapper">
+                    <label for="heatmapTypeSelect">Select Heatmap Category</label>
+                    <select id="heatmapTypeSelect">
+                        <option value="aoa">Angle of Attack (AoA) Heatmaps</option>
+                        <option value="opening">Opening Percentage Heatmaps</option>
+                    </select>
+                </div>
+                
+                <!-- AoA Controls for Heatmaps -->
+                <div class="slider-group" id="heatmapAoAControl">
+                    <label for="heatmapAoASlider">Angle of Attack (AoA)</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="heatmapAoASlider" min="0" max="9" step="1" value="4">
+                        <span class="value-display"><span id="heatmapAoAValue">0.0</span>°</span>
+                    </div>
+                </div>
+                
+                <!-- Opening Controls for Heatmaps -->
+                <div class="slider-group" id="heatmapOpeningControl" style="display: none;">
+                    <label for="heatmapOpeningSlider">Opening Percent</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="heatmapOpeningSlider" min="0" max="5" step="1" value="0">
+                        <span class="value-display"><span id="heatmapOpeningValue">0.0</span>%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
     <script>
+        // --- Tab Switching Logic ---
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        // --- Simulation Viewer Logic ---
         const cutAngleSlider = document.getElementById('cutAngleSlider');
         const openingSlider = document.getElementById('openingSlider');
         const aoaSlider = document.getElementById('aoaSlider');
@@ -264,10 +185,7 @@
         const cpImage = document.getElementById('cpImage');
         const loadingImage = document.getElementById('loadingImage');
         
-        // Get the base path to the videos folder
         const basePath = './Overall_Category_Data';
-        
-        // Define the available values for each slider
         const cutAngleOptions = [90, 100, 110, 120, 130, 140, 150];
         const openingOptions = [0, 1, 2.5, 5, 7.5, 10];
         const aoaOptions = [-20, -18, -16, -14, -12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
@@ -281,18 +199,15 @@
             const opening = openingOptions[openingIndex];
             const aoa = aoaOptions[aoaIndex];
             
-            // Update display values
             cutAngleValue.textContent = cutAngle;
             openingValue.textContent = opening.toFixed(1);
             aoaValue.textContent = aoa;
             
-            document.getElementById('infoCut').textContent = cutAngle + '°';
-            document.getElementById('infoOpening').textContent = opening.toFixed(1) + '%';
-            document.getElementById('infoAoA').textContent = aoa + '°';
+            infoCut.textContent = cutAngle + '°';
+            infoOpening.textContent = opening.toFixed(1) + '%';
+            infoAoA.textContent = aoa + '°';
             
-            // Construct the video path
-            // Convert opening to folder format (1.5 becomes 1_5, 1.0 becomes 1_0, etc.)
-            const openingStr = opening.toFixed(1);  // Always show one decimal
+            const openingStr = opening.toFixed(1);
             const openingFolder = openingStr.replace('.', '_');
             const videoPath = `${basePath}/Sweep_${cutAngle}deg/Opening_${openingFolder}pct/Video_AoA_${aoa}.mp4`;
             const imagePath = `${basePath}/Sweep_${cutAngle}deg/Opening_${openingFolder}pct/Plot_Cp_AoA_${aoa}.png`;
@@ -315,9 +230,69 @@
         cutAngleSlider.addEventListener('input', updateVideo);
         openingSlider.addEventListener('input', updateVideo);
         aoaSlider.addEventListener('input', updateVideo);
-        
-        // Load initial video
         updateVideo();
+
+        // --- Heatmaps Viewer Logic ---
+        const heatmapTypeSelect = document.getElementById('heatmapTypeSelect');
+        const heatmapAoAControl = document.getElementById('heatmapAoAControl');
+        const heatmapOpeningControl = document.getElementById('heatmapOpeningControl');
+        
+        const heatmapAoASlider = document.getElementById('heatmapAoASlider');
+        const heatmapOpeningSlider = document.getElementById('heatmapOpeningSlider');
+        
+        const heatmapAoAValue = document.getElementById('heatmapAoAValue');
+        const heatmapOpeningValue = document.getElementById('heatmapOpeningValue');
+        
+        const heatmapImage = document.getElementById('heatmapImage');
+        const loadingHeatmap = document.getElementById('loadingHeatmap');
+
+        const heatmapAoAOptions = [-24.0, -18.0, -12.0, -6.0, 0.0, 6.0, 10.0, 12.0, 18.0, 24.0];
+        const heatmapOpeningOptions = [0.0, 1.0, 2.5, 5.0, 7.5, 10.0];
+
+        function updateHeatmap() {
+            const type = heatmapTypeSelect.value;
+            let imagePath = '';
+            
+            loadingHeatmap.classList.add('active');
+
+            if (type === 'aoa') {
+                heatmapAoAControl.style.display = 'block';
+                heatmapOpeningControl.style.display = 'none';
+                
+                const index = parseInt(heatmapAoASlider.value);
+                const aoa = heatmapAoAOptions[index];
+                
+                heatmapAoAValue.textContent = aoa.toFixed(1);
+                imagePath = `./OtherHeatmapData/Overall_Category_Data/AoA_Heatmaps/Heatmap_AoA_${aoa.toFixed(1)}deg.png`;
+            } else {
+                heatmapAoAControl.style.display = 'none';
+                heatmapOpeningControl.style.display = 'block';
+                
+                const index = parseInt(heatmapOpeningSlider.value);
+                const opening = heatmapOpeningOptions[index];
+                
+                heatmapOpeningValue.textContent = opening.toFixed(1);
+                const openingFolder = opening.toFixed(1).replace('.', '_');
+                imagePath = `./Overall_Category_Data/Heatmaps/Heatmap_Opening_${openingFolder}pct.png`;
+            }
+
+            heatmapImage.src = imagePath;
+            
+            heatmapImage.addEventListener('load', () => {
+                loadingHeatmap.classList.remove('active');
+            }, { once: true });
+            
+            heatmapImage.addEventListener('error', () => {
+                loadingHeatmap.classList.remove('active');
+                console.log("Failed to load heatmap from path: " + imagePath);
+            }, { once: true });
+        }
+
+        heatmapTypeSelect.addEventListener('change', updateHeatmap);
+        heatmapAoASlider.addEventListener('input', updateHeatmap);
+        heatmapOpeningSlider.addEventListener('input', updateHeatmap);
+        
+        updateHeatmap();
     </script>
 </body>
 </html>
