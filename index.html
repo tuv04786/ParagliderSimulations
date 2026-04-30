@@ -304,6 +304,7 @@
             
             videoPlayer.addEventListener('canplay', () => {
                 loading.classList.remove('active');
+                videoPlayer.play().catch(e => console.log("Autoplay prevented:", e));
             }, { once: true });
             
             cpImage.addEventListener('load', () => {
