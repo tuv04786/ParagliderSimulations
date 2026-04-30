@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paraglider Simulation Video Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .media-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .video-container {
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-container {
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        @media (max-width: 1200px) {
+            .media-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        video {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .controls {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .slider-group {
+            margin-bottom: 25px;
+        }
+        
+        .slider-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .value-display {
+            min-width: 80px;
+            text-align: right;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            color: #1565c0;
+            font-size: 0.95em;
+        }
+        
+        .info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚁 Paraglider Simulation Viewer</h1>
+            <p>Interactive visualization of aerodynamic simulations</p>
+        </div>
+        
+        <div class="content">
+            <div class="media-container">
+                <div>
+                    <h2 style="margin-bottom: 15px; color: #333;">Video Simulation</h2>
+                    <div class="video-container">
+                        <div class="loading" id="loading">Loading video...</div>
+                        <video id="videoPlayer" controls></video>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 style="margin-bottom: 15px; color: #333;">Pressure Coefficient (Cp)</h2>
+                    <div class="image-container">
+                        <div class="loading" id="loadingImage">Loading image...</div>
+                        <img id="cpImage" alt="Pressure Coefficient Plot">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="slider-group">
+                    <label for="cutAngleSlider">Cut Angle (Sweep)</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="cutAngleSlider" min="0" max="6" step="1" value="0">
+                        <span class="value-display"><span id="cutAngleValue">90</span>°</span>
+                    </div>
+                </div>
+                
+                <div class="slider-group">
+                    <label for="openingSlider">Opening Percent</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="openingSlider" min="0" max="5" step="1" value="0">
+                        <span class="value-display"><span id="openingValue">0.0</span>%</span>
+                    </div>
+                </div>
+                
+                <div class="slider-group">
+                    <label for="aoaSlider">Angle of Attack (AoA)</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="aoaSlider" min="0" max="20" step="1" value="10">
+                        <span class="value-display"><span id="aoaValue">0</span>°</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info">
+                <strong>Current Parameters:</strong>
+                Cut Angle: <span id="infoCut">90°</span> | 
+                Opening: <span id="infoOpening">0.0%</span> | 
+                AoA: <span id="infoAoA">0°</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const cutAngleSlider = document.getElementById('cutAngleSlider');
+        const openingSlider = document.getElementById('openingSlider');
+        const aoaSlider = document.getElementById('aoaSlider');
+        
+        const cutAngleValue = document.getElementById('cutAngleValue');
+        const openingValue = document.getElementById('openingValue');
+        const aoaValue = document.getElementById('aoaValue');
+        
+        const infoCut = document.getElementById('infoCut');
+        const infoOpening = document.getElementById('infoOpening');
+        const infoAoA = document.getElementById('infoAoA');
+        
+        const videoPlayer = document.getElementById('videoPlayer');
+        const loading = document.getElementById('loading');
+        const cpImage = document.getElementById('cpImage');
+        const loadingImage = document.getElementById('loadingImage');
+        
+        // Get the base path to the videos folder
+        const basePath = './Overall_Category_Data';
+        
+        // Define the available values for each slider
+        const cutAngleOptions = [90, 100, 110, 120, 130, 140, 150];
+        const openingOptions = [0, 1, 2.5, 5, 7.5, 10];
+        const aoaOptions = [-20, -18, -16, -14, -12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
+        
+        function updateVideo() {
+            const cutAngleIndex = parseInt(cutAngleSlider.value);
+            const openingIndex = parseInt(openingSlider.value);
+            const aoaIndex = parseInt(aoaSlider.value);
+            
+            const cutAngle = cutAngleOptions[cutAngleIndex];
+            const opening = openingOptions[openingIndex];
+            const aoa = aoaOptions[aoaIndex];
+            
+            // Update display values
+            cutAngleValue.textContent = cutAngle;
+            openingValue.textContent = opening.toFixed(1);
+            aoaValue.textContent = aoa;
+            
+            document.getElementById('infoCut').textContent = cutAngle + '°';
+            document.getElementById('infoOpening').textContent = opening.toFixed(1) + '%';
+            document.getElementById('infoAoA').textContent = aoa + '°';
+            
+            // Construct the video path
+            // Convert opening to folder format (1.5 becomes 1_5, 1.0 becomes 1_0, etc.)
+            const openingStr = opening.toFixed(1);  // Always show one decimal
+            const openingFolder = openingStr.replace('.', '_');
+            const videoPath = `${basePath}/Sweep_${cutAngle}deg/Opening_${openingFolder}pct/Video_AoA_${aoa}.mp4`;
+            const imagePath = `${basePath}/Sweep_${cutAngle}deg/Opening_${openingFolder}pct/Plot_Cp_AoA_${aoa}.png`;
+            
+            loading.classList.add('active');
+            loadingImage.classList.add('active');
+            videoPlayer.src = videoPath;
+            cpImage.src = imagePath;
+            
+            videoPlayer.addEventListener('canplay', () => {
+                loading.classList.remove('active');
+            }, { once: true });
+            
+            cpImage.addEventListener('load', () => {
+                loadingImage.classList.remove('active');
+            }, { once: true });
+        }
+        
+        cutAngleSlider.addEventListener('input', updateVideo);
+        openingSlider.addEventListener('input', updateVideo);
+        aoaSlider.addEventListener('input', updateVideo);
+        
+        // Load initial video
+        updateVideo();
+    </script>
+</body>
+</html>
