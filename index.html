@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paraglider Simulation Video Viewer</title>
-    <style>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 10px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); overflow: hidden; }
+        
+        .container { 
+            /* INCREASED max-width so the video and graph have room to breathe side-by-side */
+            max-width: 1400px; 
+            width: 100%;
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); 
+            overflow: hidden; 
+        }
+        
         .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; }
         .header h1 { font-size: 2em; margin-bottom: 10px; }
         .header p { font-size: 0.95em; opacity: 0.9; }
@@ -21,16 +32,55 @@
         .tab-content.active { display: block; }
         
         /* Media & Layout */
-        .media-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px; }
+        .media-container { 
+            display: grid; 
+            /* Shifted ratio to shrink video and give the graph more room */
+            grid-template-columns: 1fr 1fr; 
+            gap: 30px; 
+            margin-bottom: 40px; 
+            align-items: start; /* Keeps top aligned perfectly */
+        }
+        
         .media-container.single { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto 40px auto; }
-        .video-container, .image-container { background: #f5f5f5; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 400px; }
-        .video-container { background: #000; aspect-ratio: 16 / 9; }
-        .image-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        @media (max-width: 1200px) { .media-container { grid-template-columns: 1fr; } }
-        video { width: 100%; height: 100%; }
+        
+        .video-container, .image-container { 
+            background: #f5f5f5; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative;
+            /* REMOVED min-height to fix the off-screen bug! */
+            width: 100%;
+        }
+        
+        .video-container { 
+            background: #000; 
+            aspect-ratio: 16 / 9; 
+        }
+        
+        .image-container {
+            width: 100%;
+        }
+
+        .image-container img { 
+            width: 100%; 
+            height: auto; /* Lets the image grow proportionally naturally */
+            object-fit: contain; 
+        }
+        
+        video { width: 100%; height: 100%; object-fit: contain; }
+        
+        /* Stacks them on laptops and smaller screens so it NEVER cuts off */
+        @media (max-width: 1024px) { 
+            .media-container { grid-template-columns: 0.5fr; } 
+            .image-container { aspect-ratio: 16 / 9; }
+        }
         
         /* Controls */
-        .controls { background: #f5f5f5; padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        /* Added max-width and margin auto so they don't stretch massively across the screen */
+        .controls { background: #f5f5f5; padding: 30px; border-radius: 8px; margin: 0 auto 30px auto; max-width: 900px; }
         .slider-group { margin-bottom: 25px; }
         .slider-group:last-child { margin-bottom: 0; }
         label { display: block; font-weight: 600; margin-bottom: 10px; color: #333; }
@@ -45,7 +95,8 @@
         .info { background: #e3f2fd; border-left: 4px solid #667eea; padding: 15px; border-radius: 4px; color: #1565c0; font-size: 0.95em; }
         .info strong { display: block; margin-bottom: 5px; }
         
-        .loading { display: none; text-align: center; padding: 20px; color: #666; }
+        /* Fixed loading to be absolute so it doesn't push the video down */
+        .loading { display: none; position: absolute; z-index: 10; font-weight: bold; color: #667eea; background: rgba(255,255,255,0.8); padding: 10px 20px; border-radius: 5px; }
         .loading.active { display: block; }
     </style>
 </head>
@@ -61,7 +112,6 @@
             <button class="tab-btn" onclick="switchTab('heatmapView', this)">Heatmaps Viewer</button>
         </div>
         
-        <!-- Simulation View -->
         <div id="simView" class="tab-content active">
             <div class="media-container">
                 <div>
@@ -115,11 +165,19 @@
             </div>
         </div>
         
-        <!-- Heatmap View -->
         <div id="heatmapView" class="tab-content">
             <div class="media-container single">
                 <div>
-                    <h2 style="margin-bottom: 15px; color: #333; text-align: center;">Heatmap Analysis</h2>
+                    <h2 style="margin-bottom: 15px; color: #333; text-align: center;">10° AoA Heatmap (Reference)</h2>
+                    <div class="image-container">
+                        <img src="./OtherHeatmapData/Overall_Category_Data/AoA_Heatmaps/Heatmap_AoA_10.0deg.png" alt="10 Degree AoA Heatmap Reference">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="media-container single">
+                <div>
+                    <h2 style="margin-bottom: 15px; color: #333; text-align: center;">Interactive Heatmap Analysis</h2>
                     <div class="image-container">
                         <div class="loading" id="loadingHeatmap">Loading heatmap...</div>
                         <img id="heatmapImage" alt="Heatmap Plot">
@@ -136,7 +194,6 @@
                     </select>
                 </div>
                 
-                <!-- AoA Controls for Heatmaps -->
                 <div class="slider-group" id="heatmapAoAControl">
                     <label for="heatmapAoASlider">Angle of Attack (AoA)</label>
                     <div class="slider-wrapper">
@@ -145,7 +202,6 @@
                     </div>
                 </div>
                 
-                <!-- Opening Controls for Heatmaps -->
                 <div class="slider-group" id="heatmapOpeningControl" style="display: none;">
                     <label for="heatmapOpeningSlider">Opening Percent</label>
                     <div class="slider-wrapper">
@@ -246,7 +302,7 @@
         const heatmapImage = document.getElementById('heatmapImage');
         const loadingHeatmap = document.getElementById('loadingHeatmap');
 
-        const heatmapAoAOptions = [-24.0, -18.0, -12.0, -6.0, 0.0, 6.0, 10.0, 12.0, 18.0, 24.0];
+        const heatmapAoAOptions = [-24.0, -18.0, -12.0, -6.0, 0.0, 6.0, 12.0, 18.0, 24.0];
         const heatmapOpeningOptions = [0.0, 1.0, 2.5, 5.0, 7.5, 10.0];
 
         function updateHeatmap() {
