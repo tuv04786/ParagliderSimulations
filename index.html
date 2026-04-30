@@ -19,12 +19,36 @@
             overflow: hidden; 
         }
         
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; }
-        .header h1 { font-size: 2em; margin-bottom: 10px; }
-        .header p { font-size: 0.95em; opacity: 0.9; }
+        .header {
+            background: linear-gradient(180deg, rgba(33, 150, 243, 0.75), rgba(106, 27, 154, 0.8)),
+                url('./BackGroundPhoto.png') center/cover no-repeat;
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .header * {
+            position: relative;
+            z-index: 1;
+        }
+        .header h1 { font-size: 2.4em; margin-bottom: 10px; }
+        .header p { font-size: 1em; opacity: 0.95; }
+        .hero-note {
+            max-width: 900px;
+            margin: 20px auto 0 auto;
+            font-size: 0.95em;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
         
         /* Tabs */
-        .tabs { display: flex; background: #f0f0f0; border-bottom: 1px solid #ddd; }
+        .tabs { display: flex; flex-wrap: wrap; background: #f0f0f0; border-bottom: 1px solid #ddd; }
         .tab-btn { flex: 1; padding: 15px; text-align: center; font-weight: bold; color: #555; background: #e0e0e0; cursor: pointer; border: none; outline: none; transition: background 0.3s, color 0.3s; font-size: 1.1em; }
         .tab-btn:hover { background: #d0d0d0; }
         .tab-btn.active { background: white; color: #667eea; border-bottom: 3px solid #667eea; }
@@ -86,6 +110,38 @@
         label { display: block; font-weight: 600; margin-bottom: 10px; color: #333; }
         .slider-wrapper { display: flex; align-items: center; gap: 15px; }
         input[type="range"] { flex: 1; height: 8px; border-radius: 5px; background: #ddd; outline: none; -webkit-appearance: none; appearance: none; }
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            background: #fff;
+            color: #333;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .text-box-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        .text-box-row h3 {
+            margin-bottom: 12px;
+            color: #333;
+        }
+        .hero-card {
+            background: rgba(255,255,255,0.92);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+        }
         input[type="range"]::-webkit-slider-thumb, input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); cursor: pointer; border: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); -webkit-appearance: none; appearance: none; }
         
         .selector-wrapper { margin-bottom: 25px; }
@@ -108,11 +164,29 @@
         </div>
         
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('simView', this)">Simulation Viewer</button>
+            <button class="tab-btn active" onclick="switchTab('homeView', this)">Home</button>
+            <button class="tab-btn" onclick="switchTab('simView', this)">Simulation Viewer</button>
             <button class="tab-btn" onclick="switchTab('heatmapView', this)">Heatmaps Viewer</button>
         </div>
         
-        <div id="simView" class="tab-content active">
+        <div id="homeView" class="tab-content active">
+            <div class="hero-card">
+                <h2>Welcome to My Paraglider Project</h2>
+                <p class="hero-note">Use this homepage to explain your research goals, what your simulations show, and why your dataset matters. The site is built to let viewers interact with your cut angle, opening percent, and angle of attack results while also seeing pressure coefficient plots and heatmaps.</p>
+                <div class="text-box-row">
+                    <div>
+                    <h3>Project Overview</h3>
+                    <p>This project explores paraglider performance across cut angle, opening percent, and angle of attack using simulation video and Cp plots. The goal is to visualize how aerodynamic behavior changes in each condition, and to demonstrate the relationship between wing geometry, flow structure, and pressure distribution.</p>
+                </div>
+                <div>
+                    <h3>Key Findings or Notes</h3>
+                    <p>Each simulation compares sweep angle, opening ratio, and AoA. The video panel shows time-resolved flow behavior, while the Cp plot highlights pressure changes over the surface. This helps identify stable vs. unstable regions and informs aerodynamic design decisions.</p>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="simView" class="tab-content">
             <div class="media-container">
                 <div>
                     <h2 style="margin-bottom: 15px; color: #333;">Video Simulation</h2>
@@ -163,6 +237,12 @@
                 Opening: <span id="infoOpening">0.0%</span> | 
                 AoA: <span id="infoAoA">0°</span>
             </div>
+            <div class="text-box-row">
+                <div>
+                    <h3>Interpretation</h3>
+                    <p>This simulation viewer lets users select a sweep angle, opening percent, and angle of attack. The video displays the airflow and wake behavior, while the Cp plot shows pressure distribution across the section. Use this panel to compare aerodynamic performance across conditions.</p>
+                </div>
+            </div>
         </div>
         
         <div id="heatmapView" class="tab-content">
@@ -208,6 +288,12 @@
                         <input type="range" id="heatmapOpeningSlider" min="0" max="5" step="1" value="0">
                         <span class="value-display"><span id="heatmapOpeningValue">0.0</span>%</span>
                     </div>
+                </div>
+            </div>
+            <div class="text-box-row">
+                <div>
+                    <h3>Heatmap Analysis</h3>
+                    <p>The heatmap view compares AoA and opening percentage trends visually. Select a category to show the corresponding heatmap, then use the slider to explore specific values. These images reveal where lift, drag, and pressure changes are most significant across your data.</p>
                 </div>
             </div>
         </div>
@@ -343,6 +429,19 @@
                 console.log("Failed to load heatmap from path: " + imagePath);
             }, { once: true });
         }
+
+        function checkHeaderImage() {
+            const img = new Image();
+            img.src = './BackGroundPhoto.png';
+            img.onload = () => {
+                document.querySelector('.header').style.backgroundImage = "linear-gradient(180deg, rgba(33, 150, 243, 0.75), rgba(106, 27, 154, 0.8)), url('./BackGroundPhoto.png')";
+            };
+            img.onerror = () => {
+                console.log('BackGroundPhoto.png not found, using fallback image.');
+            };
+        }
+
+        checkHeaderImage();
 
         heatmapTypeSelect.addEventListener('change', updateHeatmap);
         heatmapAoASlider.addEventListener('input', updateHeatmap);
