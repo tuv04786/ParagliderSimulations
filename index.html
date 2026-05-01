@@ -168,24 +168,75 @@
         </div>
         
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('homeView', this)">Home</button>
+            <button class="tab-btn active" onclick="switchTab('homeView', this)">Performance Data</button>
             <button class="tab-btn" onclick="switchTab('simView', this)">Simulation Viewer</button>
-            <button class="tab-btn" onclick="switchTab('heatmapView', this)">Heatmaps Viewer</button>
+            <button class="tab-btn" onclick="switchTab('heatmapView', this)">Inflation Profile</button>
         </div>
         
         <div id="homeView" class="tab-content active">
             <div class="hero-card">
-                <h2>Welcome to My Paraglider Project</h2>
-                <p class="hero-note">Use this homepage to explain your research goals, what your simulations show, and why your dataset matters. The site is built to let viewers interact with your cut angle, opening percent, and angle of attack results while also seeing pressure coefficient plots and heatmaps.</p>
+                <h2>Flight Profile of A Ram Air Paraglider Wing</h2>
+                <p class="hero-note">A parachute is not a simple sheet of fabric.  Parachutes and paragliders are inflatable airfoils that hold their shape do to the ram air pressure on openings in the front.</p>
                 <div class="text-box-row">
                     <div>
-                    <h3>Project Overview</h3>
-                    <p>This project explores paraglider performance across cut angle, opening percent, and angle of attack using simulation video and Cp plots. The goal is to visualize how aerodynamic behavior changes in each condition, and to demonstrate the relationship between wing geometry, flow structure, and pressure distribution.</p>
+                    <h2>Project Overview</h2>
+                    <p>This project simulates a 2D cross section of a ram air paraglider wing.  Using this data, the design criterea as well as performance of the wing can be better understood.</p>
+                    <br>
+                    <h3>Methods</h3>
+                    
+                    <p>An NACA0022 Profile was used for all calculations.  An XFoil simulation of this airfoil was performed to determine its base characteristics.  Waterlily was used for all simulations.  A chord length of 128 and a Re of 5*10^5 were kept standardized in all tests.  All Simulations were recorded for 300 frames over a time frame of 10 seconds unless otherwise stated.</p>
+                    <br>
+                    <h3>Experimental Variables</h3>
+                    <p>-Angle of Attack (AoA)</p>
+                    <p>-Opening Size in terms of %chord length</p>
+                    <p>-Opening Angle relative to the X-axis</p>
+                </div>
+                
+                </div>
+
+                <div class="text-box-row" style="margin-top: 40px;">
+                    <div>
+                        <h3><a href="https://foil.flexcompute.com/flexfoil/canvas?naca=0022&mode=parameters&solver=viscous#h=N4IgzgDghgxglgOwOYgFwG1QGU0AYA0IAYmgIwB0ArAL77Z7kBMlhJqu5ALLfe1a2So8QOPgHYWxBtzoiyA1BRoBdQgDMA9nAA2aUAigBbAKZoQAOQCCAYUsACXLkaMQhGBo0AnACaIoAF2MwNEwQAA95EABPBkdnUkIwAFdPNVhTVBAkiAhjTxBhCL4ATkkYvlxSTlJGRJS0mAysnLyC2SKOYsJyjidKAGZOOtT0s2zc-MKGAA5u2M5KYoTwetHM8dap8TmKgDZq2pWRxrGWyfaGXZ3esWLpq6OGpo3z0A7+aNjixl3JZOPnmc2m9pNdyKRKpQHv8nqcJsDwgx+mCIZRcENHmtmvCthxmCjcP1imJhrD1kDcUwCejSViXgj3qQyl9+pQMTC6RSLnxlj1yLhpqRSrSTuScdybsyKmJWSLAeKQRUpb1dvE5XDNhL+fjPhUFmJoatRdjNYrejVlfz+v0meqxabEexrnaTa9HeadeUALS9a22zHG7QaADuDvefR2Pv5+sNALMQdDbvDUqjuFVjGWHMDIbDsQkkZusoDTQTuZ5Bf5guFxfjOaTDH93t6xVZ7KNJbrDIYhyb4McbbjmVL9b4nrQUYhRJJNaHncpyN1E9waIHZJAw67fAxvYhTNja43lJTzZ+f3btcTm44D17uFu9xdh6109v+xqj7nWtmi96CyWH8vSkuh-bUBlXLEnzNchq1vKp3xnddP0VXlx16JwMwAzZVBAaAEGMbRggwZCwTiDCEPpIDpmmA10U4aYnAkZwSPRJZphbXZBiosRGH6H4XQorViU4X4bUWYlSF2VjmOmfpCU4YpOHiZxSjEb8s3lMtOkWUhpkoRgnF2VVpmYb8+UqIVuP1O9GEUzgBTU897RHTpFNknTKm+KF6MtSE2LEfybJlRhpjslt+K5KDvmqRxjLvSg9Pi4CzP0px+jEC06JMwVwoVd1oPRbzdgs3ZbjsntYhsxglmKSTODs24JIcwdXSvcgqOEyhqN04onAFItkvuOjSnuCQ2QNB9yIivL7n6e4qjmtjOpI610U6nqqmqOzssm3L3hCn47yWMRKgFeSktiNLOGtW52Mk3ZlyqHLNLajM0104KiVm-pDJI6oAtIJleLq9EBTPZqBKgm7vokza0QB+Lfvu67hJ03Y2JqQ51I1ZzyH8iQ7MJFtmEGK6SLRfT02EwVOHShSnpx0b02CmS6t+DiycUmTiQGGzSFufZ6damVvsYVTWJsqjtrMzqfiZC0lhK1l905XaGHSpl6IWNlZKcGDYlVUgVtF-TRcU4lBcpNHSjiwYdauw2SN+NibLqqqyoYi2tUMsQruoyhxvRRXHdKG0DRlaK0TTT2oP2NlKmYOySqqpjdULdE+c6476qq6O8tVQYdJ0mmWwUygUOlN8rrLxSDIk3P3nupkBVVTrqJKgGSP5xT0rZYLI7R+uGH9mrqLx+qJAmszjO4h7C4k-SfcHvh4v5lsy5k-TZu3WJdI4nqacN-Tvm4peOAGDi0YFPcFkqG8d5k53rJtO4ZWnLGnNa6u2OJQyCt4m0SI9RqswGoKNig1VUqfLga9BSOAhCjXcC4zItlZDUOC8lhJuygTTSqQC+acQ4pPL48UOpsnurpH24FjQQzygsKo6YJKDHWpUQBEg0rHXMulGm2DZKSR6mjDid40p3wqOAm0dFFL3RKsuQk2DdydSuj7AGh9t48hindOyoCqhQgXO-Fq842K6XRuTYkqkREcAhBmUo8C+FOD5pmRy+itTfTuM4NGgoy6VXKmo3isDvjmV4aTHaz1WQxRsqyKEqlCRIIbOnKoPs2JSM6nXYJOMVolRDorXhDtU59iposYyX0+G-CgTaCSSMhQlRoovXJ8C7ghVuMIvSxMoFVVktxWSrJqLE3MX2cmlR6Ij2UUtVJrVTbAKkbHFK501E03omzXiCkdLpVaf7NKMl-I2miS3Ak3c0z7DuLZH4VCNI4xsoSIyix-YdRwQSJhUjebLjYgsVpPFSgtnuPsFxm8CQ2S+Z9RwjhShgzXDQ94+ljKF3uEsf2hlem7lRjJKEdEaIySgUKG09wfjG0JulUyXwhn7TTJUGmsjRmUj5lRcB1Keqj24bk3AxIR66TojUEeb9HFgobCJWB8kirWmhr0xlUjxq+IhcJdFekOI8QkPdHqzAeKAIJnzayMpnkTT0Vynkid6rGWOWXKODKjoKWOp4w+dNyVajZUSOqcNXrrSFc8-Y3lm6NzZOinSVF7rM2ohgxSJFqKEmcDZFslRxEgpVs9CESxHDnxqkKGo+KKghT0g9YN8bynosBcM74oteICwZVWHm4CYrdxTpqqa4YYWCg+pVUqUs8xrzvI1MW-l-WWqgn1A061hJFTouiF8eYk6krKSFIFEbqGVqHVKxlpVqgrxidKLaX1VJ0LtlAtMdwGIHO4rvH6DKuGDH0gMQNjhBgbo4vFNk4CU0txKo7Ue-saiSSFPRDuHa8rLjbWjYS30zqHyFYZCEgoMZplUjKDdekj001bIy2aq1Ha2yBksEB0qHHgynXqGUEIJB2P9sZBtew4oEwOQKO8dEN2SNFr3NyJbapk3ojKAUMqcO8XdR+8Ms1RZCghSFPmP8yYDAViFChiduLK0narCoR6MwEx5taMRPk9LHS3ZSn2RUoQbtkgsFxtx-J+VFmTOIhkWyrskgKidpzWoGRNbK46GYag1LMjBg4k4Aaqg4rozlmHeg8R-d9NM-G0o2V+h1fjctfXfSLBWqTvm0yputkKHq9mhXVGtpJDxaMeJCks9jazlL5JWPYtphVy1c3tzZKzKiIWOOxCZNRhTwsioChPgyv9Ps0oofehjDdbKqoa3iCFcBQSzLWkklVTqaI22+162R-y7no3BQUkK2SXETbrMJMdR6tWKgCn4SQ4yRVfjBVUb5xjHEJLzRUzJLzGHYv8msvg9TSw2NDRIgq1SOKOLcVNRur9bsoRQhw1tbxvnmCbecH+m+tw-t1VDlraVaM2QIwZRZZJ6VFYxtVByu7z0z3iLiO5hKEChUqqulI3q3cbSY28-duI30faEjg281moP+RVFZPG5LMbmDmx22hDWdFgtLIhFU077OydMgWDxKir6Tl5cpIC+Ny5OsF3uN5ZiyWpzogzPEAB-OHssVFkzTqzWpHMX2KRrjN3ZpooN9m8DK40rufCTMtCs1ab3GaS7Rp8uP6K8BSlU1yLDly0XQLpbV0FJpRte5v7cRHDB4OftG6g7UCpnjs8m1MeRfGUwjjB3ft0TO-ns0tPGePevuO84W1kCEKQU-f2Y+Ju5qTiTRny38lCQEYFfvfP1mgXNYGL75ZV1vEZ618SHXGNDZBL0Q38MvkhfcRF5ukpIFOHp2RzLwUef69IUb35xnskiZEhPSI1MHPFhFW55Y9u-eA9+gJg54790nOoXZ1nAL3qddKNuweA-RfOHPmBHfNT5Y8dnbmQUDHGUGNBJB-LUWNFfBYNmYHDMRdVMZwNEYLPzW1ODBAztR7V+YSF7ZgauC-XzZTaeCmYLLbAgxvNieLNkQ7CSAYO8CsJwc7G0PtQNO4FJefQAurObdWZrb4IBDg1bbpVKKJZ3C1AQwCRAvratQbM6IkCQ75YaKbShNQ-fBQzterNhKcMbd9W8drRRLrPSQ2YCeQvHArb4JLKLafCQ8rHuOqKmPVeg8MCmBLOGOjGqVRVMNLNEDLPcQpehTwiqb6EKb-ILDHCA2iX4cLdeDrEZGwgvH4czMzFsIUCI6TRSWTWNf+IkUoCg-kZTRlN9cDFGK9Zo30aeHjeyP6GqGooTRqOia5fZdDAA0o8MKjfGHiDyfbGoxjVbFjIRctRxBfeYbDOKPDT7O6Dgt-OONMLvRjaoYYnoniWyGUOOUzPWdPFUJDENC0RhPmO4r9dTEKC+f9Y5c45rEDZwMDbpCTDsJY-WCJa9Q5KEZgVrV8R9dKDI19W+X4jLbdeSXdKEdmDfQ9GuE9DhOSX4g0GdJlOqJkJ9DgxnB+dZNdWNX4jZSSElIDftHQ28MOQKAoouIFGnZqA40RDWRNIGUWE1cuVMRpKbFtPyNVO4iEOBeGXNIKQhDgotRZHqU6Y2QUxYqNRlJUuNG-RzdvXoFNY9DGKqIqTNXQqNT1e4TgriDBcfc046XiGvUNQ2OCRUtpBSG+fIh1DU5bftNET5SEXLWcGE7VK4u8PVWOVEDg41UlM1RZWaRUqVf+WVRlPoeCW8BSOBY6H7WaBSO3NI1qVg2aOpfla0RYJMkVNGMVU6TTO0nGSlb+GlFrShM0-kJldxZgtlARaw-YwQnkRorFbHTeKfV03swlGuRuEdO4iFDMXfF9WFdUkCBFdXJWFFchBYiCUcvEN5RYWaQycnaqAIixJwYSK6AFJXFHcsykc5EWbqa5X4CjTcuSGqNMR5NaF5VssZNZVSdhLZMbMcN4vJUWfZeSfaSRYo4UvEH2CZaC1NUXCseBKJBZN2ZZfc7MaMvEUNDpQkTOYmFsncGRfSdyIZeGJqfUtJdzCpCBapEbD-OpdqRpCkrA+Cw88gdJW4c+YWQLFHci-JVxIpcBVUO40JZjKuSJeiCJdCuJGmIaJJQUf-A8-C3ijLNxWXTxSRRS3xRbAJK4qSwxNaJuKqfTcvK8qxA1Eg+VexO46KQXS6ZRIGCApU6FfYeOWGSSgCykK6TdfhGaIRA0JMxoiRA6aRcmJy8g+IDiLvSceI7mdhZUrhPhJyyyKqQ08OGaHsxlEhX4MhUGShPUjS56eSLpJUmxAGJwJM2stBTaZbNpO4r+cBA0e6IXbLJM4VEBP5JLEqKEi8Z6c+KIq+ZFOGayysB+fxDpV9WA1q4eczdeXibvDA80nRfedKVa4+MqvCka-mUeNtO8CeKa5jGeMuOeVUIRO4t1ZuLKMOEwj-Q6fYbjXuXSRwe9fyr2B4qFYuG1djbkyuVBGuWWVIkczS2OTRBOMDZOS8-kJjP6TOEGPE26kqX2CQAOYSfyc4kOPmRWCOW6xaG2QK4vbbV8NaF2M2d2Pib6yGGi1abWOIPnV8dA2SHFU2NpbizSprUWdGYyOiarTYsG+WCSJ4oaqM56RmYNKiEmNmeI96qcHmCYjzO4vGS4z6YmW1Go3qSmNGeJHLCWkoqWsRI7WGcyAYDg4SaJdTRFFDdS-anGSFN6PSLmIpbo9Of6QGF2EGYcoUni-aN-I6E6IbfKy6a6U2u6FXO4vKngoqRaG6dQ1aRgjaKoZuGOgEzObqXqDeDg4KZ1YaEqEhTZO4-eQqYqRpcBPOs2Spf0w6J7Uux5ZjOKBKEZW8FKFjBOYyVubm56BSNY9yHjLyQ1WCNaPGQKXxUKHHOi1qd5HSVNOo4KEyDggGYkGyf2ayWyeBUu9TAYJkdqiSBWDgvqL81ojGfwva6EvuriTq-tajYNY++SHSYrQWjpZoqUtCeIQFb+n+w1R87CAAIygDAGMGsA8B8D8ECEIlCCKHLk-rIhiz7p8jgkvoV0EnezAigSTV-G0igTTxVAOCgSFXvCNq1TPkAVPGwQJD3FKQJBXFWTuT50QbOWpGKLIfBB8jXjYZ83BADRyw3XzAPWi1pzxx8gYQ3XApwbCvtwtGWlElPmdBkfAtTD9EjONvSNyNhV+PiPEbps-UEe5OEf9s0o-srH4b0cZGStbCXMUppAse7A8txSksUvofsa3EUpobcfIY32+HX0fK9jpLuCNoQtxnOMIa8baittwYiZmUwMwZifiJQffuPrVH8uwhgCMAAbyDAYQH8E8A0G0AAAUtBcnoHsJ-AAALOAGAAAazwjADABybyYKeKcQH8DKeoGoCAA" target="_blank" rel="noopener noreferrer">XFOIL Analysis</a></h3>
+                        <p>Below is the XFOIL analysis providing baseline airfoil performance characteristics.</p>
+                    </div>
+                </div>
+                <div class="media-container single">
+                    <div class="image-container">
+                        <img src="./XFOIL.png" alt="XFOIL Analysis">
+                    </div>
+                    <p>From this simulation, it is evident that the pont of maximum lift per drag (L/D) occurs roughly at a 10 degree AoA</p>
+                </div>
+
+                <div class="text-box-row">
+                    <div>
+                        <h3>Reference Heatmap at 10° AoA</h3>
+                        <p>Since the point of maximum lift occurs at a 10 degree angle of attack, this was used to calculate a 13x12 graph.  Each simulation was run for 30 simulation seconds for 900 frames.</p>
+                    </div>
+                </div>
+                <div class="media-container single">
+                    <div class="image-container">
+                        <img src="./OtherHeatmapData/Overall_Category_Data/AoA_Heatmaps/Heatmap_AoA_10.0deg.png" alt="10 Degree AoA Heatmap Reference">
+                    </div>
+                </div>
+                <p>These graphs demonstrate multiple different relationships.  The first box displays that at every simulation, the stagnation point fell inside the airfoil.  As the opening increases, so does drag.  More verticle cuts also increase the drag.  The lift defreases as the opening increases in size, but appears to increase as the angle of the cut increases.  Looking at the L/D chart, these relationships appear to result in a peak at approximately 5% opening and 120 degrees. </p>
+
+                <div class="text-box-row">
+                    <div>
+                        <h3>Simulation Example: 120° Sweep, 5% Opening, 10° AoA</h3>
+                        <p>Here is a detailed look at the simulation flow and resulting pressure coefficient (Cp) distribution for a configuration with a 120-degree sweep, 5% opening, and 10-degree angle of attack.  Not that this was done for 300 frames, not 900, so values may differ slightly in the chart.</p>
+                    </div>
+                </div>
+                <div class="media-container">
+                    <div class="video-container">
+                        <video controls autoplay muted loop src="./Overall_Category_Data/Sweep_120deg/Opening_5_0pct/Video_AoA_10.mp4"></video>
+                    </div>
+                    <div class="image-container">
+                        <img src="./Overall_Category_Data/Sweep_120deg/Opening_5_0pct/Plot_Cp_AoA_10.png" alt="Cp Plot 120 deg, 5%, 10 AoA">
+                    </div>
                 </div>
                 <div>
-                    <h3>Key Findings or Notes</h3>
-                    <p>Each simulation compares sweep angle, opening ratio, and AoA. The video panel shows time-resolved flow behavior, while the Cp plot highlights pressure changes over the surface. This helps identify stable vs. unstable regions and informs aerodynamic design decisions.</p>
-                </div>
+                    <h1>Conclusion</h1>
+                    <p>While no manufacturer data was found on industry opening size or slant, this document displays how this could be determined.  The graphs show the relationships between the experimental variables considered.  On the additional tabs on the website, further maps are shown that display what angle of attack or opening results in a collapsing wing.  Balancing the data on the website for the inflation profile and performance profile can allow a designer to select the optimal wing.</p>
                 </div>
             </div>
         </div>
@@ -243,21 +294,14 @@
             </div>
             <div class="text-box-row">
                 <div>
-                    <h3>Interpretation</h3>
-                    <p>This simulation viewer lets users select a sweep angle, opening percent, and angle of attack. The video displays the airflow and wake behavior, while the Cp plot shows pressure distribution across the section. Use this panel to compare aerodynamic performance across conditions.</p>
+                    <h3>Description</h3>
+                    <p>Simulations were run for 882 different configurations.  These simulations can be viewed here.  The videos display velocity, pressure, and vorticity.  The average pressure profile as well as performance data are listed for the wing in the image beside the video.</p>
                 </div>
             </div>
         </div>
         
         <div id="heatmapView" class="tab-content">
-            <div class="media-container single">
-                <div>
-                    <h2 style="margin-bottom: 15px; color: #333; text-align: center;">10° AoA Heatmap (Reference)</h2>
-                    <div class="image-container">
-                        <img src="./OtherHeatmapData/Overall_Category_Data/AoA_Heatmaps/Heatmap_AoA_10.0deg.png" alt="10 Degree AoA Heatmap Reference">
-                    </div>
-                </div>
-            </div>
+            
             
             <div class="media-container single">
                 <div>
@@ -296,8 +340,11 @@
             </div>
             <div class="text-box-row">
                 <div>
-                    <h3>Heatmap Analysis</h3>
-                    <p>The heatmap view compares AoA and opening percentage trends visually. Select a category to show the corresponding heatmap, then use the slider to explore specific values. These images reveal where lift, drag, and pressure changes are most significant across your data.</p>
+                    <h3>Inflation Profile Analysis</h3>
+                    <p>In the first graph, as squares turn gray, the stagnation point moves outside of the ram air opening.  Since pressure is then greater on the outside than inside, a collapse will occur.  This leaves the pilot without a plane and should be avoided.  The data includes negative angles of attack to account for turbulence and sudden downdrafts.  Data here appears more noisy than the graph on the perfomance page since they are over 300 frames, not 900.  The three hundred frames are not enough to determine an adequate average accross every simulation.  .</p>
+                    <br>
+                    <h3>Inflation Profile Findings and Results</h3>
+                    <p>The data indicates that a wider opening is more resilient to large variences in angle of attack before collapse.  They also demonstrate that a more verticle cut will handle lower angle of attacks while a lower opening will handle higher angles of attack better before collapse.</p>
                 </div>
             </div>
         </div>
